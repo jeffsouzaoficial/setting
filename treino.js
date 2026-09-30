@@ -57,3 +57,14 @@ const total = ativos.reduce(function (soma, paciente) {
 }, 0);
 
 console.log(total);
+
+
+//-----------
+
+const precos = [150, 200, 120];
+
+const temCaro = precos.some(function(preco) {
+  return preco > 180;
+});
+
+console.log(temCaro);

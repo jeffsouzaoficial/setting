@@ -1,4 +1,4 @@
-// ===== Setting — Versão 2: a agenda na tela =====
+// ===== Setting — Versão 3: a agenda na tela =====
 
 // PARTE 1: o fichário, com as fichas escritas direto dentro dele
 const pacientes = [
@@ -24,7 +24,7 @@ const campoValor = document.querySelector("#campo-valor");
 const botaoCadastrar = document.querySelector("#botao-cadastrar");
 
 
-// PARTE 3: a triagem — só os pacientes ativos
+// PARTE 3: 
 let ativos = [];
 
 // PARTE 4: máquina que devolve os pacientes de um dia
@@ -54,7 +54,7 @@ function mostrarAgenda(lista) {
   listaAgenda.innerHTML = itens.join("");
 }
 
-// PARTE 6: o resumo da semana
+// PARTE 6: máquina que atualiza a tela inteira
 function atualizarTela() {
   ativos = pacientes.filter(function (paciente){
     return paciente.ativo === true;
@@ -99,6 +99,15 @@ botaoCadastrar.addEventListener("click", function () {
     valor: Number(campoValor.value),
     ativo: true
   };
+
+  const ocupado = ativos.some(function (paciente) {
+    return paciente.dia === novoPaciente.dia && paciente.horario === novoPaciente.horario;
+  });
+
+  if (ocupado) {
+    alert("Esse horário já está ocupado.");
+    return;
+  }
 
   pacientes.push(novoPaciente);
   atualizarTela();
