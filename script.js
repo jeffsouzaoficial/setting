@@ -149,9 +149,20 @@ function diaDaSemana(dataAmericana) {
 //async na frente, avisando: "esta máquina vai esperar coisas".
 async function buscarFeriados() {
   //O await faz o JavaScript esperar a resposta chegar.
-  const resposta = await fetch("https://brasilapi.com.br/api/feriados/v1/2026");
+  const ano = new Date().getFullYear();
+  const resposta = await fetch("https://brasilapi.com.br/api/feriados/v1/" + ano);
   const feriados = await resposta.json();
-  const itens = feriados.map(function (feriado) {
+
+  const hoje = new Date();
+  hoje.setHours(0, 0, 0, 0);
+
+  const proximos = feriados.filter(function (feriado) {
+    const data = new Date(feriado.date + "T12:00:00");
+    return data >= hoje;
+  });
+
+
+  const itens = proximos.map(function (feriado) {
     return "<li>" + formatarData(feriado.date) + " (" + diaDaSemana(feriado.date) + ") — " + feriado.name + "</li>";
   });
 
