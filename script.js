@@ -31,6 +31,7 @@ const campoHorario = document.querySelector("#campo-horario");
 const campoValor = document.querySelector("#campo-valor");
 const botaoCadastrar = document.querySelector("#botao-cadastrar");
 
+const listaFeriados = document.querySelector('#lista-feriados');
 
 // PARTE 3: 
 let ativos = [];
@@ -128,13 +129,25 @@ function salvarPacientes() {
   localStorage.setItem("pacientes", JSON.stringify(pacientes));
 }
 
+// PARTE 12: máquina que transforma "2026-01-01" em "01/01/2026"
+function formatarData(dataAmericana) {
+  const partes = dataAmericana.split("-");
+  return partes[2] + "/" + partes[1] + "/" + partes[0];
+}
+
+
+
 // PARTE 11: buscar os feriados na internet
 //async na frente, avisando: "esta máquina vai esperar coisas".
 async function buscarFeriados() {
   //O await faz o JavaScript esperar a resposta chegar.
   const resposta = await fetch("https://brasilapi.com.br/api/feriados/v1/2026");
   const feriados = await resposta.json();
-  console.log("Feriados em 2026: " + feriados.length);
+  const itens = feriados.map(function (feriado) {
+    return "<li>" + formatarData(feriado.date) + " — " + feriado.name + "</li>";
+  });
+
+  listaFeriados.innerHTML = itens.join("");
 }
 
 buscarFeriados();
