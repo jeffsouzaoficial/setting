@@ -128,3 +128,13 @@ function salvarPacientes() {
   localStorage.setItem("pacientes", JSON.stringify(pacientes));
 }
 
+// PARTE 11: buscar os feriados na internet
+//async na frente, avisando: "esta máquina vai esperar coisas".
+async function buscarFeriados() {
+  //O await faz o JavaScript esperar a resposta chegar.
+  const resposta = await fetch("https://brasilapi.com.br/api/feriados/v1/2026");
+  const feriados = await resposta.json();
+  console.log("Feriados em 2026: " + feriados.length);
+}
+
+buscarFeriados();
