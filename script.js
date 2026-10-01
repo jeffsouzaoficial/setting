@@ -1,13 +1,21 @@
-// ===== Setting — Versão 3: a agenda na tela =====
+// ===== Setting — Versão 4: a agenda na tela =====
 
 // PARTE 1: o fichário, com as fichas escritas direto dentro dele
-const pacientes = [
+const pacientesIniciais = [
   { nome: "Anna Karenina", whatsapp: "5531998974563", dia: "segunda", horario: "10:00", duracao: 50, valor: 150, ativo: true },
   { nome: "Sherlock Holmes", whatsapp: "5545991556784", dia: "terça", horario: "15:00", duracao: 50, valor: 150, ativo: true },
   { nome: "Machado de Assis", whatsapp: "5541988743212", dia: "quarta", horario: "08:00", duracao: 50, valor: 150, ativo: true },
   { nome: "Lima Barreto", whatsapp: "5598987456542", dia: "quinta", horario: "17:00", duracao: 50, valor: 150, ativo: true },
   { nome: "Dom Casmurro", whatsapp: "5538997121454", dia: "sexta", horario: "14:00", duracao: 50, valor: 150, ativo: true }
 ];
+
+let pacientes = pacientesIniciais;
+
+const pacientesSalvos = localStorage.getItem("pacientes");
+//se houver um fichário guardado no cofre, use-o.
+if (pacientesSalvos !== null) {
+  pacientes = JSON.parse(pacientesSalvos);
+}
 
 // PARTE 2: os elementos da tela, guardados uma vez só
 const seletorDia = document.querySelector("#filtro-dia");
@@ -110,5 +118,13 @@ botaoCadastrar.addEventListener("click", function () {
   }
 
   pacientes.push(novoPaciente);
+  salvarPacientes();
   atualizarTela();
 });
+
+// PARTE 10: guarda o fichário no cofre
+//"pego o fichário, transformo em texto e guardo no cofre, na gaveta chamada pacientes."
+function salvarPacientes() {
+  localStorage.setItem("pacientes", JSON.stringify(pacientes));
+}
+
