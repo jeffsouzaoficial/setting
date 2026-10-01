@@ -33,6 +33,8 @@ const botaoCadastrar = document.querySelector("#botao-cadastrar");
 
 const listaFeriados = document.querySelector('#lista-feriados');
 
+const listaAvisos = document.querySelector("#avisos");
+
 // PARTE 3: 
 let ativos = [];
 
@@ -167,6 +169,26 @@ async function buscarFeriados() {
   });
 
   listaFeriados.innerHTML = itens.join("");
+
+  const avisos = [];
+
+  for (const feriado of proximos) {
+    const dia = diaDaSemana(feriado.date);
+
+    const afetados = ativos.filter(function (paciente) {
+      return paciente.dia === dia;
+    });
+
+    if (afetados.length > 0) {
+      const nomes = afetados.map(function (paciente) {
+        return paciente.nome;
+      });
+
+      avisos.push("<li>⚠️ " + formatarData(feriado.date) + " (" + dia + ") — " + feriado.name + ": " + nomes.join(", ") + "</li>");
+    }
+  }
+
+  listaAvisos.innerHTML = avisos.join("");
 }
 
 buscarFeriados();
