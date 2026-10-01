@@ -135,6 +135,14 @@ function formatarData(dataAmericana) {
   return partes[2] + "/" + partes[1] + "/" + partes[0];
 }
 
+// PARTE 13: máquina que descobre o dia da semana de uma data
+const diasDaSemana = ["domingo", "segunda", "terça", "quarta", "quinta", "sexta", "sábado"];
+
+function diaDaSemana(dataAmericana) {
+  const data = new Date(dataAmericana + "T12:00:00");
+  const numero = data.getDay();
+  return diasDaSemana[numero];
+}
 
 
 // PARTE 11: buscar os feriados na internet
@@ -144,7 +152,7 @@ async function buscarFeriados() {
   const resposta = await fetch("https://brasilapi.com.br/api/feriados/v1/2026");
   const feriados = await resposta.json();
   const itens = feriados.map(function (feriado) {
-    return "<li>" + formatarData(feriado.date) + " — " + feriado.name + "</li>";
+    return "<li>" + formatarData(feriado.date) + " (" + diaDaSemana(feriado.date) + ") — " + feriado.name + "</li>";
   });
 
   listaFeriados.innerHTML = itens.join("");
