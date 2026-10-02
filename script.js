@@ -111,6 +111,16 @@ botaoCadastrar.addEventListener("click", function () {
     ativo: true
   };
 
+    if (novoPaciente.nome === "") {
+    alert("Preencha o nome do paciente.");
+    return;
+  }
+
+    if (novoPaciente.horario === "") {
+    alert("Escolha o horário da sessão.");
+    return;
+  }
+
   const ocupado = ativos.some(function (paciente) {
     return paciente.dia === novoPaciente.dia && paciente.horario === novoPaciente.horario;
   });
